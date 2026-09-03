@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PERPUS NIZAM - Perpustakaan Digital</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ================= HEADER / NAVBAR ================= -->
+  <header class="navbar">
+    <div class="navbar-container">
+      <div class="logo">📚 PERPUS NIZAM</div>
+
+      <nav class="nav-menu">
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#katalog">Katalog Buku</a></li>
+          <li><a href="#berlangganan">Berlangganan</a></li>
+          <li><a href="#kontak">Kontak</a></li>
+        </ul>
+      </nav>
+
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Cari judul buku...">
+        <button id="btnCari">Cari</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= HERO SECTION ================= -->
+  <section class="hero" id="home">
+    <h1>Selamat Datang di PERPUS NIZAM</h1>
+    <p>Tempat baca-baca online yang santai. Cari buku favoritmu, pinjam, dan mulai membaca kapan saja.</p>
+  </section>
+
+  <!-- ================= KATALOG BUKU ================= -->
+  <section class="katalog" id="katalog">
+    <h2>Katalog Buku</h2>
+
+    <div class="buku-grid" id="bukuGrid">
+      <!-- Card 1 -->
+      <div class="buku-card" data-judul="laskar pelangi">
+        <div class="buku-cover cover-1">Laskar Pelangi</div>
+        <div class="buku-info">
+          <h3 class="judul-buku">Laskar Pelangi</h3>
+          <p class="penulis-buku">Andrea Hirata</p>
+          <span class="status status-tersedia">Tersedia</span>
+          <button class="btn-pinjam">Pinjam Buku</button>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="buku-card" data-judul="bumi manusia">
+        <div class="buku-cover cover-2">Bumi Manusia</div>
+        <div class="buku-info">
+          <h3 class="judul-buku">Bumi Manusia</h3>
+          <p class="penulis-buku">Pramoedya Ananta Toer</p>
+          <span class="status status-tersedia">Tersedia</span>
+          <button class="btn-pinjam">Pinjam Buku</button>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="buku-card" data-judul="filosofi teras">
+        <div class="buku-cover cover-3">Filosofi Teras</div>
+        <div class="buku-info">
+          <h3 class="judul-buku">Filosofi Teras</h3>
+          <p class="penulis-buku">Henry Manampiring</p>
+          <span class="status status-dipinjam">Dipinjam</span>
+          <button class="btn-pinjam" disabled>Sedang Dipinjam</button>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="buku-card" data-judul="negeri 5 menara">
+        <div class="buku-cover cover-4">Negeri 5 Menara</div>
+        <div class="buku-info">
+          <h3 class="judul-buku">Negeri 5 Menara</h3>
+          <p class="penulis-buku">Ahmad Fuadi</p>
+          <span class="status status-tersedia">Tersedia</span>
+          <button class="btn-pinjam">Pinjam Buku</button>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="buku-card" data-judul="cantik itu luka">
+        <div class="buku-cover cover-5">Cantik Itu Luka</div>
+        <div class="buku-info">
+          <h3 class="judul-buku">Cantik Itu Luka</h3>
+          <p class="penulis-buku">Eka Kurniawan</p>
+          <span class="status status-tersedia">Tersedia</span>
+          <button class="btn-pinjam">Pinjam Buku</button>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="buku-card" data-judul="atomic habits">
+        <div class="buku-cover cover-6">Atomic Habits</div>
+        <div class="buku-info">
+          <h3 class="judul-buku">Atomic Habits</h3>
+          <p class="penulis-buku">James Clear</p>
+          <span class="status status-tersedia">Tersedia</span>
+          <button class="btn-pinjam">Pinjam Buku</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- pesan kalau hasil pencarian kosong -->
+    <p id="notFoundMsg" class="not-found" style="display: none;">Buku tidak ditemukan, coba kata kunci lain ya.</p>
+  </section>
+
+  <!-- ================= BERLANGGANAN ================= -->
+  <section class="berlangganan" id="berlangganan">
+    <h2>Berlangganan</h2>
+    <p>Mau update buku baru tiap minggu? Masukin email kamu di bawah ini.</p>
+    <div class="form-langganan">
+      <input type="email" placeholder="Masukkan email kamu">
+      <button class="btn-daftar">Daftar</button>
+    </div>
+  </section>
+
+  <!-- ================= KONTAK / FOOTER ================= -->
+  <footer class="footer" id="kontak">
+    <div class="footer-container">
+      <div>
+        <h3>PERPUS NIZAM</h3>
+        <p>Perpustakaan digital sederhana buat yang suka baca santai.</p>
+      </div>
+      <div>
+        <h4>Kontak Kami</h4>
+        <p>Email: halo@perpusnizam.id</p>
+        <p>WA: 0812-3456-7890</p>
+      </div>
+    </div>
+    <p class="copyright">&copy; 2026 Perpus Nizam. Dibuat dengan santai.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
