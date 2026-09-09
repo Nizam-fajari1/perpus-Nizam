@@ -1,342 +1,300 @@
-/* =========================================
-   PERPUS NIZAM - style.css
-   Catatan: warna dibikin earth tone biar adem
-   dilihat, ga norak, sesuai request soalnya.
-   ========================================= */
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
-  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-  background-color: #f9f6f0;
-  color: #3d332a;
-  line-height: 1.5;
+  background-color: #f4f4f0;
+  color: #333;
+  line-height: 1.4;
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-/* ============= NAVBAR ============= */
-.navbar {
-  background-color: #3d2b1f;
-  color: #f9f6f0;
-  padding: 14px 0;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  /* shadow tipis aja biar ga terlalu tebal */
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-}
-
-.navbar-container {
-  max-width: 1100px;
+.container {
+  max-width: 1000px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 15px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* --- MODAL LOGIN --- */
+.login-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
+  justify-content: center;
+  z-index: 99;
+}
+
+.login-box {
+  background: #fff;
+  width: 90%;
+  max-width: 360px;
+  padding: 25px;
+  border-radius: 6px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.login-head {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.login-head h2 {
+  font-size: 1.4rem;
+  color: #2c3e50;
+  margin-bottom: 5px;
+}
+
+.login-head p {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+.input-group label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #444;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+.err-msg {
+  color: #c0392b;
+  font-size: 0.8rem;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.btn-login {
+  width: 100%;
+  padding: 9px;
+  background: #27ae60;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-login:hover {
+  background: #219150;
+}
+
+.demo-info {
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+  text-align: center;
+  color: #777;
+}
+
+/* --- MAIN NAVBAR --- */
+.navbar {
+  background: #2c3e50;
+  color: #fff;
+  padding: 12px 0;
+  margin-bottom: 25px;
+}
+
+.nav-content {
+  display: flex;
   justify-content: space-between;
-  flex-wrap: wrap;
+  align-items: center;
+}
+
+.brand {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.user-info {
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
   gap: 12px;
 }
 
-.logo {
-  font-size: 1.3rem;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-}
-
-.nav-menu ul {
-  list-style: none;
-  display: flex;
-  gap: 22px;
-}
-
-.nav-menu a {
-  font-size: 0.95rem;
-  transition: color 0.2s ease;
-}
-
-.nav-menu a:hover {
-  color: #d8a25b; /* terakota muda pas hover */
-}
-
-.search-box {
-  display: flex;
-  gap: 6px;
-}
-
-.search-box input {
-  padding: 7px 10px;
-  border: none;
-  border-radius: 4px;
-  font-size: 0.9rem;
-  width: 170px;
-}
-
-.search-box input:focus {
-  outline: 2px solid #d8a25b;
-}
-
-.search-box button,
-#btnCari {
-  background-color: #8c4227;
+.btn-logout {
+  background: #e74c3c;
   color: #fff;
   border: none;
-  padding: 7px 14px;
-  border-radius: 4px;
+  padding: 5px 10px;
+  border-radius: 3px;
   cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.btn-logout:hover {
+  background: #c0392b;
+}
+
+/* --- CONTENT --- */
+.head-section {
+  margin-bottom: 20px;
+}
+
+.head-section h1 {
+  font-size: 1.6rem;
+  color: #2c3e50;
+  margin-bottom: 5px;
+}
+
+.head-section p {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.filter-bar {
+  margin-bottom: 20px;
+}
+
+.filter-bar input {
+  width: 100%;
+  max-width: 400px;
+  padding: 9px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
   font-size: 0.9rem;
-  transition: background-color 0.2s ease;
 }
 
-.search-box button:hover {
-  background-color: #723318;
-}
-
-/* ============= HERO SECTION ============= */
-.hero {
-  text-align: center;
-  padding: 70px 20px;
-  background-color: #f0efe9;
-  border-bottom: 1px solid #e2ddd0;
-}
-
-.hero h1 {
-  font-size: 2rem;
-  color: #3d2b1f;
-  margin-bottom: 12px;
-}
-
-.hero p {
-  font-size: 1rem;
-  color: #6b5f52;
-  max-width: 550px;
-  margin: 0 auto;
-}
-
-/* ============= KATALOG BUKU ============= */
-.katalog {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 50px 20px;
-}
-
-.katalog h2 {
-  margin-bottom: 24px;
-  color: #3d2b1f;
-  border-left: 4px solid #8c4227;
-  padding-left: 10px;
-}
-
+/* --- GRID BUKU --- */
 .buku-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-  gap: 22px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 18px;
+  margin-bottom: 30px;
 }
 
-.buku-card {
-  background-color: #ffffff;
-  border: 1px solid #e5e0d5;
-  border-radius: 6px;
+.card-buku {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
   overflow: hidden;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
   display: flex;
   flex-direction: column;
 }
 
-.buku-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* cover buku pake warna solid aja, ga pake gambar asli */
-.buku-cover {
-  height: 190px;
+.cover {
+  height: 160px;
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
   color: #fff;
-  font-weight: 600;
+  font-weight: bold;
   padding: 10px;
-  font-size: 0.95rem;
+  text-align: center;
 }
 
-.cover-1 { background-color: #8c4227; }
-.cover-2 { background-color: #2d4a3e; }
-.cover-3 { background-color: #a6784a; }
-.cover-4 { background-color: #5c6b4f; }
-.cover-5 { background-color: #7a4b3a; }
-.cover-6 { background-color: #4a5d52; }
+.c-1 { background-color: #8e44ad; }
+.c-2 { background-color: #2980b9; }
+.c-3 { background-color: #d35400; }
+.c-4 { background-color: #27ae60; }
+.c-5 { background-color: #c0392b; }
+.c-6 { background-color: #16a085; }
 
-.buku-info {
-  padding: 14px;
+.card-body {
+  padding: 12px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
   flex-grow: 1;
 }
 
-.judul-buku {
-  font-size: 1.02rem;
-  color: #3d2b1f;
+.judul {
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+  color: #2c3e50;
 }
 
-.penulis-buku {
-  font-size: 0.85rem;
-  color: #7a7061;
-  margin-bottom: 4px;
+.penulis {
+  font-size: 0.8rem;
+  color: #777;
+  margin-bottom: 12px;
+}
+
+.card-action {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .status {
-  display: inline-block;
   font-size: 0.75rem;
-  padding: 3px 8px;
+  padding: 2px 6px;
   border-radius: 3px;
-  width: fit-content;
-  margin-bottom: 8px;
+  font-weight: bold;
 }
 
-.status-tersedia {
-  background-color: #e7efe4;
-  color: #3f6b3f;
+.status-ada {
+  background: #e8f8f5;
+  color: #117864;
 }
 
-.status-dipinjam {
-  background-color: #f3e5df;
-  color: #8c4227;
+.status-pinjam {
+  background: #fadbd8;
+  color: #78281f;
 }
 
 .btn-pinjam {
-  margin-top: auto;
-  background-color: #8c4227;
+  background: #2980b9;
   color: #fff;
   border: none;
-  padding: 9px 12px;
-  border-radius: 4px;
+  padding: 5px 10px;
+  border-radius: 3px;
+  font-size: 0.8rem;
   cursor: pointer;
-  font-size: 0.88rem;
-  transition: background-color 0.2s ease;
 }
 
 .btn-pinjam:hover:not(:disabled) {
-  background-color: #6e3419;
+  background: #1f618d;
 }
 
 .btn-pinjam:disabled {
-  background-color: #b5a99a;
+  background: #ccc;
   cursor: not-allowed;
 }
 
-.not-found {
+.pesan-kosong {
   text-align: center;
-  color: #8c7f6c;
-  margin-top: 20px;
+  padding: 20px;
+  color: #777;
   font-style: italic;
 }
 
-/* ============= BERLANGGANAN ============= */
-.berlangganan {
-  background-color: #2d4a3e;
-  color: #f4f1ea;
-  text-align: center;
-  padding: 55px 20px;
-}
-
-.berlangganan h2 {
-  margin-bottom: 10px;
-}
-
-.berlangganan p {
-  margin-bottom: 20px;
-  color: #d8ded4;
-}
-
-.form-langganan {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.form-langganan input {
-  padding: 9px 12px;
-  border-radius: 4px;
-  border: none;
-  width: 250px;
-  font-size: 0.9rem;
-}
-
-.btn-daftar {
-  background-color: #d8a25b;
-  color: #2d2418;
-  border: none;
-  padding: 9px 18px;
-  border-radius: 4px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.btn-daftar:hover {
-  background-color: #c68f47;
-}
-
-/* ============= FOOTER / KONTAK ============= */
+/* --- FOOTER --- */
 .footer {
-  background-color: #3d2b1f;
-  color: #e5ded2;
-  padding: 40px 20px 15px;
-}
-
-.footer-container {
-  max-width: 1100px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.footer h3, .footer h4 {
-  margin-bottom: 8px;
-  color: #fff;
-}
-
-.footer p {
-  font-size: 0.88rem;
-  color: #cfc4b4;
-}
-
-.copyright {
+  background: #e2e2dc;
   text-align: center;
-  margin-top: 30px;
+  padding: 15px 0;
   font-size: 0.8rem;
-  color: #a8998a;
-  border-top: 1px solid #55442f;
-  padding-top: 15px;
-}
-
-/* ============= RESPONSIVE DIKIT ============= */
-@media (max-width: 700px) {
-  .navbar-container {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .nav-menu ul {
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  .search-box input {
-    width: 140px;
-  }
+  color: #555;
+  margin-top: 20px;
 }

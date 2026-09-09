@@ -1,78 +1,83 @@
-// =========================================
-// PERPUS NIZAM - script.js
-// Isinya cuma 2 fitur utama:
-// 1. Filter pencarian buku
-// 2. Tombol pinjam buku
-// =========================================
+// Elemen Login & Aplikasi
+const loginModal = document.getElementById('loginModal');
+const mainWrapper = document.getElementById('mainWrapper');
+const formLogin = document.getElementById('formLogin');
+const loginErr = document.getElementById('loginErr');
+const btnLogout = document.getElementById('btnLogout');
+const userLabel = document.getElementById('userLabel');
 
-// ambil elemen-elemen yang dibutuhin
-const searchInput = document.getElementById("searchInput");
-const btnCari = document.getElementById("btnCari");
-const bukuCards = document.querySelectorAll(".buku-card");
-const notFoundMsg = document.getElementById("notFoundMsg");
+// Elemen Katalog
+const inputCari = document.getElementById('inputCari');
+const gridBuku = document.getElementById('gridBuku');
+const listBuku = document.querySelectorAll('.card-buku');
+const pesanKosong = document.getElementById('pesanKosong');
 
-// -----------------------------------------
-// FITUR 1: FILTER PENCARIAN BUKU
-// -----------------------------------------
-function filterBuku() {
-  // ambil kata kunci, lowercase biar ga case-sensitive
-  const keyword = searchInput.value.toLowerCase().trim();
-  let adaHasil = false;
+// 1. Dapatkan Sesi Login Sederhana
+formLogin.addEventListener('submit', function (e) {
+  e.preventDefault();
 
-  bukuCards.forEach((card) => {
-    const judul = card.getAttribute("data-judul");
+  const user = document.getElementById('username').value.trim();
+  const pass = document.getElementById('password').value.trim();
 
-    if (judul.includes(keyword)) {
-      card.style.display = "flex";
-      adaHasil = true;
-    } else {
-      card.style.display = "none";
-    }
-  });
+  // Kredensial demo
+  if (user === 'user' && pass === '123456') {
+    loginErr.classList.add('hidden');
+    userLabel.textContent = user;
 
-  // kalau ga ada buku yang cocok, tampilin pesan
-  if (!adaHasil) {
-    notFoundMsg.style.display = "block";
+    // Sembunyikan Modal, Tampilkan Halaman Utama
+    loginModal.classList.add('hidden');
+    mainWrapper.classList.remove('hidden');
   } else {
-    notFoundMsg.style.display = "none";
-  }
-}
-
-// jalanin filter pas tombol "Cari" diklik
-btnCari.addEventListener("click", filterBuku);
-
-// biar bisa juga langsung ketik terus filter otomatis jalan
-searchInput.addEventListener("input", filterBuku);
-
-// enter di keyboard juga bisa trigger cari
-searchInput.addEventListener("keyup", function (e) {
-  if (e.key === "Enter") {
-    filterBuku();
+    loginErr.classList.remove('hidden');
   }
 });
 
-// -----------------------------------------
-// FITUR 2: TOMBOL PINJAM BUKU
-// -----------------------------------------
-const tombolPinjam = document.querySelectorAll(".btn-pinjam");
+// 2. Fitur Logout
+btnLogout.addEventListener('click', function () {
+  mainWrapper.classList.add('hidden');
+  loginModal.classList.remove('hidden');
+  document.getElementById('password').value = '';
+});
 
-tombolPinjam.forEach((tombol) => {
-  tombol.addEventListener("click", function () {
-    // cari card induknya biar tau judul buku apa yang dipinjam
-    const card = tombol.closest(".buku-card");
-    const judulBuku = card.querySelector(".judul-buku").textContent;
-    const statusEl = card.querySelector(".status");
+// 3. Pencarian Buku
+inputCari.addEventListener('keyup', function () {
+  const keyword = inputCari.value.toLowerCase().trim();
+  let ketemu = 0;
 
-    // kasih tau user pake alert simpel
-    alert("Buku \"" + judulBuku + "\" berhasil dipinjam!");
+  listBuku.forEach(function (card) {
+    const judul = card.getAttribute('data-judul');
+    const penulis = card.getAttribute('data-penulis');
 
-    // ubah tampilan status jadi "Dipinjam"
-    statusEl.textContent = "Dipinjam";
-    statusEl.classList.remove("status-tersedia");
-    statusEl.classList.add("status-dipinjam");
-
-    // tombolnya dimatiin biar ga bisa dipinjam dobel
-    tombol.textContent = "Sedang Dipinjam";
-    tombol.disabled = true;
+    if (judul.includes(keyword) || penulis.includes(keyword)) {
+      card.style.display = 'flex';
+      ketemu++;
+    } else {
+      card.style.display = 'none';
+    }
   });
+
+  if (ketemu === 0) {
+    pesanKosong.classList.remove('hidden');
+  } else {
+    pesanKosong.classList.add('hidden');
+  }
+});
+
+// 4. Pinjam Buku
+gridBuku.addEventListener('click', function (e) {
+  if (e.target.classList.contains('btn-pinjam') && !e.target.disabled) {
+    const btn = e.target;
+    const card = btn.closest('.card-buku');
+    const judul = card.querySelector('.judul').textContent;
+    const status = card.querySelector('.status');
+
+    alert('Berhasil meminjam buku "' + judul + '"!');
+
+    // Ubah tampilan status & tombol
+    status.textContent = 'Dipinjam';
+    status.className = 'status status-pinjam';
+
+    btn.textContent = 'Sedang Dipinjam';
+    btn.disabled = true;
+  }
 });
