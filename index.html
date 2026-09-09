@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<!-- MODAL LOGIN -->
+  <!-- MODAL LOGIN -->
   <div class="login-modal" id="loginModal">
     <div class="login-box">
       <div class="login-head">
@@ -33,6 +33,7 @@
       </form>
     </div>
   </div>
+
   <!-- ISI WEBSITE PERPUSTAKAAN -->
   <div class="main-wrapper hidden" id="mainWrapper">
     
@@ -52,7 +53,7 @@
     <main class="container">
       <section class="head-section">
         <h1>Katalog Buku Digital</h1>
-        <p>Cari dan pinjam buku favoritmu secara online.</p>
+        <p>Klik kartu buku untuk melihat detail dan sinopsis.</p>
       </section>
 
       <!-- BAR PENCARIAN -->
@@ -63,7 +64,10 @@
       <!-- GRID BUKU -->
       <div class="buku-grid" id="gridBuku">
         
-        <div class="card-buku" data-judul="laskar pelangi" data-penulis="andrea hirata">
+        <div class="card-buku" 
+             data-judul="Laskar Pelangi" 
+             data-penulis="Andrea Hirata"
+             data-deskripsi="Mengisahkan tentang kehidupan 10 anak di Desa Gantung, Belitung, yang berjuang menempuh pendidikan di sekolah Muhammadiyah yang serba terbatas namun penuh semangat.">
           <div class="cover c-1">Laskar Pelangi</div>
           <div class="card-body">
             <h3 class="judul">Laskar Pelangi</h3>
@@ -75,7 +79,10 @@
           </div>
         </div>
 
-        <div class="card-buku" data-judul="bumi manusia" data-penulis="pramoedya ananta toer">
+        <div class="card-buku" 
+             data-judul="Bumi Manusia" 
+             data-penulis="Pramoedya Ananta Toer"
+             data-deskripsi="Novel berlatar era kolonial Belanda yang menceritakan kisah Minke, pemuda pribumi terpelajar, dan perjuangannya menghadapi diskriminasi serta cintanya pada Annelies.">
           <div class="cover c-2">Bumi Manusia</div>
           <div class="card-body">
             <h3 class="judul">Bumi Manusia</h3>
@@ -87,7 +94,10 @@
           </div>
         </div>
 
-        <div class="card-buku" data-judul="filosofi teras" data-penulis="henry manampiring">
+        <div class="card-buku" 
+             data-judul="Filosofi Teras" 
+             data-penulis="Henry Manampiring"
+             data-deskripsi="Buku panduan stoisisme (filsafat Yunani-Romawi kuno) yang dikemas secara praktis untuk membantu mengendalikan emosi negatif dan mengatasinya dalam kehidupan sehari-hari.">
           <div class="cover c-3">Filosofi Teras</div>
           <div class="card-body">
             <h3 class="judul">Filosofi Teras</h3>
@@ -99,7 +109,10 @@
           </div>
         </div>
 
-        <div class="card-buku" data-judul="negeri 5 menara" data-penulis="ahmad fuadi">
+        <div class="card-buku" 
+             data-judul="Negeri 5 Menara" 
+             data-penulis="Ahmad Fuadi"
+             data-deskripsi="Kisah perjalanan Alif dan kawan-kawannya di Pondok Madani dengan semboyan 'Man Jadda Wajada' dalam mengejar impian mereka hingga ke belahan dunia lain.">
           <div class="cover c-4">Negeri 5 Menara</div>
           <div class="card-body">
             <h3 class="judul">Negeri 5 Menara</h3>
@@ -111,7 +124,10 @@
           </div>
         </div>
 
-        <div class="card-buku" data-judul="cantik itu luka" data-penulis="eka kurniawan">
+        <div class="card-buku" 
+             data-judul="Cantik Itu Luka" 
+             data-penulis="Eka Kurniawan"
+             data-deskripsi="Sebuah karya sastra bergenre realisme magis yang menggabungkan sejarah, satir, dan dongeng tentang kehidupan Dewi Ayu dan keturunannya di kota fiktif Halimunda.">
           <div class="cover c-5">Cantik Itu Luka</div>
           <div class="card-body">
             <h3 class="judul">Cantik Itu Luka</h3>
@@ -123,7 +139,10 @@
           </div>
         </div>
 
-        <div class="card-buku" data-judul="atomic habits" data-penulis="james clear">
+        <div class="card-buku" 
+             data-judul="Atomic Habits" 
+             data-penulis="James Clear"
+             data-deskripsi="Buku pengembangan diri populer yang menjelaskan bagaimana perubahan-perubahan kecil (1% setiap hari) dapat memberikan hasil luar biasa dalam jangka panjang.">
           <div class="cover c-6">Atomic Habits</div>
           <div class="card-body">
             <h3 class="judul">Atomic Habits</h3>
@@ -147,6 +166,20 @@
       </div>
     </footer>
 
+  </div>
+
+  <!-- MODAL DETAIL BUKU (Sembunyi secara bawaan dengan class hidden) -->
+  <div class="detail-modal hidden" id="detailModal">
+    <div class="detail-box">
+      <button class="btn-close" id="btnCloseDetail">&times;</button>
+      <h2 id="detailJudul">Judul Buku</h2>
+      <p class="detail-penulis" id="detailPenulis">Penulis</p>
+      <hr>
+      <div class="detail-content">
+        <h4>Ringkasan / Sinopsis:</h4>
+        <p id="detailDeskripsi">Deskripsi buku akan muncul di sini.</p>
+      </div>
+    </div>
   </div>
 
   <script src="script.js"></script>

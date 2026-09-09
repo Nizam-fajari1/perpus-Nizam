@@ -12,19 +12,24 @@ const gridBuku = document.getElementById('gridBuku');
 const listBuku = document.querySelectorAll('.card-buku');
 const pesanKosong = document.getElementById('pesanKosong');
 
-// 1. Dapatkan Sesi Login Sederhana
+// Elemen Modal Detail
+const detailModal = document.getElementById('detailModal');
+const btnCloseDetail = document.getElementById('btnCloseDetail');
+const detailJudul = document.getElementById('detailJudul');
+const detailPenulis = document.getElementById('detailPenulis');
+const detailDeskripsi = document.getElementById('detailDeskripsi');
+
+// 1. Sesi Login
 formLogin.addEventListener('submit', function (e) {
   e.preventDefault();
 
   const user = document.getElementById('username').value.trim();
   const pass = document.getElementById('password').value.trim();
 
-  // Kredensial demo
   if (user === 'user' && pass === '123456') {
     loginErr.classList.add('hidden');
     userLabel.textContent = user;
 
-    // Sembunyikan Modal, Tampilkan Halaman Utama
     loginModal.classList.add('hidden');
     mainWrapper.classList.remove('hidden');
   } else {
@@ -32,7 +37,7 @@ formLogin.addEventListener('submit', function (e) {
   }
 });
 
-// 2. Fitur Logout
+// 2. Logout
 btnLogout.addEventListener('click', function () {
   mainWrapper.classList.add('hidden');
   loginModal.classList.remove('hidden');
@@ -45,8 +50,8 @@ inputCari.addEventListener('keyup', function () {
   let ketemu = 0;
 
   listBuku.forEach(function (card) {
-    const judul = card.getAttribute('data-judul');
-    const penulis = card.getAttribute('data-penulis');
+    const judul = card.getAttribute('data-judul').toLowerCase();
+    const penulis = card.getAttribute('data-penulis').toLowerCase();
 
     if (judul.includes(keyword) || penulis.includes(keyword)) {
       card.style.display = 'flex';
@@ -63,21 +68,51 @@ inputCari.addEventListener('keyup', function () {
   }
 });
 
-// 4. Pinjam Buku
+// 4. Pinjam Buku ATAU Lihat Detail
 gridBuku.addEventListener('click', function (e) {
-  if (e.target.classList.contains('btn-pinjam') && !e.target.disabled) {
-    const btn = e.target;
-    const card = btn.closest('.card-buku');
-    const judul = card.querySelector('.judul').textContent;
-    const status = card.querySelector('.status');
+  // Jika tombol PINJAM diklik
+  if (e.target.classList.contains('btn-pinjam')) {
+    e.stopPropagation();
 
-    alert('Berhasil meminjam buku "' + judul + '"!');
+    if (!e.target.disabled) {
+      const btn = e.target;
+      const card = btn.closest('.card-buku');
+      const judul = card.getAttribute('data-judul');
+      const status = card.querySelector('.status');
 
-    // Ubah tampilan status & tombol
-    status.textContent = 'Dipinjam';
-    status.className = 'status status-pinjam';
+      alert('Berhasil meminjam buku "' + judul + '"!');
 
-    btn.textContent = 'Sedang Dipinjam';
-    btn.disabled = true;
+      status.textContent = 'Dipinjam';
+      status.className = 'status status-pinjam';
+
+      btn.textContent = 'Sedang Dipinjam';
+      btn.disabled = true;
+    }
+    return;
+  }
+
+  // Jika area Card Buku diklik
+  const card = e.target.closest('.card-buku');
+  if (card) {
+    const judul = card.getAttribute('data-judul');
+    const penulis = card.getAttribute('data-penulis');
+    const deskripsi = card.getAttribute('data-deskripsi');
+
+    detailJudul.textContent = judul;
+    detailPenulis.textContent = 'Penulis: ' + penulis;
+    detailDeskripsi.textContent = deskripsi;
+
+    detailModal.classList.remove('hidden');
+  }
+});
+
+// 5. Tutup Modal Detail
+btnCloseDetail.addEventListener('click', function () {
+  detailModal.classList.add('hidden');
+});
+
+detailModal.addEventListener('click', function (e) {
+  if (e.target === detailModal) {
+    detailModal.classList.add('hidden');
   }
 });
