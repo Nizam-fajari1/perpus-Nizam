@@ -1,118 +1,168 @@
-// Elemen Login & Aplikasi
-const loginModal = document.getElementById('loginModal');
-const mainWrapper = document.getElementById('mainWrapper');
-const formLogin = document.getElementById('formLogin');
-const loginErr = document.getElementById('loginErr');
-const btnLogout = document.getElementById('btnLogout');
-const userLabel = document.getElementById('userLabel');
+// Array penampung riwayat pinjam sementara
+let riwayatPinjam = [];
 
-// Elemen Katalog
-const inputCari = document.getElementById('inputCari');
-const gridBuku = document.getElementById('gridBuku');
-const listBuku = document.querySelectorAll('.card-buku');
-const pesanKosong = document.getElementById('pesanKosong');
+// Fungsi ganti tab
+function switchTab(tabName) {
+  const pageKatalog = document.getElementById('pageKatalog');
+  const pageRiwayat = document.getElementById('pageRiwayat');
+  const tabs = document.querySelectorAll('.tab-item');
 
-// Elemen Modal Detail
-const detailModal = document.getElementById('detailModal');
-const btnCloseDetail = document.getElementById('btnCloseDetail');
-const detailJudul = document.getElementById('detailJudul');
-const detailPenulis = document.getElementById('detailPenulis');
-const detailDeskripsi = document.getElementById('detailDeskripsi');
+  tabs[0].classList.remove('active');
+  tabs[1].classList.remove('active');
 
-// 1. Sesi Login
-formLogin.addEventListener('submit', function (e) {
-  e.preventDefault();
-
-  const user = document.getElementById('username').value.trim();
-  const pass = document.getElementById('password').value.trim();
-
-  if (user === 'user' && pass === '123456') {
-    loginErr.classList.add('hidden');
-    userLabel.textContent = user;
-
-    loginModal.classList.add('hidden');
-    mainWrapper.classList.remove('hidden');
+  if (tabName === 'katalog') {
+    tabs[0].classList.add('active');
+    pageKatalog.classList.remove('hidden');
+    pageRiwayat.classList.add('hidden');
   } else {
-    loginErr.classList.remove('hidden');
+    tabs[1].classList.add('active');
+    pageRiwayat.classList.remove('hidden');
+    pageKatalog.classList.add('hidden');
   }
-});
+}
 
-// 2. Logout
-btnLogout.addEventListener('click', function () {
-  mainWrapper.classList.add('hidden');
-  loginModal.classList.remove('hidden');
-  document.getElementById('password').value = '';
-});
+// Fitur Pencarian Buku
+const inputCari = document.getElementById('cariBuku');
+if (inputCari) {
+  inputCari.addEventListener('keyup', function () {
+    const filter = this.value.toLowerCase().trim();
+    const items = document.querySelectorAll('.item-buku');
+    let ada = 0;
 
-// 3. Pencarian Buku
-inputCari.addEventListener('keyup', function () {
-  const keyword = inputCari.value.toLowerCase().trim();
-  let ketemu = 0;
+    items.forEach(function (item) {
+      const judul = item.getAttribute('data-judul').toLowerCase();
+      const penulis = item.getAttribute('data-penulis').toLowerCase();
 
-  listBuku.forEach(function (card) {
-    const judul = card.getAttribute('data-judul').toLowerCase();
-    const penulis = card.getAttribute('data-penulis').toLowerCase();
+      if (judul.includes(filter) || penulis.includes(filter)) {
+        item.style.display = 'block';
+        ada++;
+      } else {
+        item.style.display = 'none';
+      }
+    });
 
-    if (judul.includes(keyword) || penulis.includes(keyword)) {
-      card.style.display = 'flex';
-      ketemu++;
+    const noData = document.getElementById('noData');
+    if (ada === 0) {
+      noData.classList.remove('hidden');
     } else {
-      card.style.display = 'none';
+      noData.classList.add('hidden');
     }
   });
+}
 
-  if (ketemu === 0) {
-    pesanKosong.classList.remove('hidden');
-  } else {
-    pesanKosong.classList.add('hidden');
-  }
-});
-
-// 4. Pinjam Buku ATAU Lihat Detail
-gridBuku.addEventListener('click', function (e) {
-  // Jika tombol PINJAM diklik
-  if (e.target.classList.contains('btn-pinjam')) {
-    e.stopPropagation();
-
-    if (!e.target.disabled) {
+// Event handler klik di grid buku
+const listBuku = document.getElementById('listBuku');
+if (listBuku) {
+  listBuku.addEventListener('click', function (e) {
+    // Tombol Pinjam diklik
+    if (e.target.classList.contains('btn-pinjam')) {
+      e.stopPropagation();
       const btn = e.target;
-      const card = btn.closest('.card-buku');
+      const card = btn.closest('.item-buku');
+      const id = card.getAttribute('data-id');
       const judul = card.getAttribute('data-judul');
-      const status = card.querySelector('.status');
+      const badge = card.querySelector('.badge');
 
-      alert('Berhasil meminjam buku "' + judul + '"!');
+      // Ambil tanggal hari ini
+      const today = new Date();
+      const tglStr = today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear();
 
-      status.textContent = 'Dipinjam';
-      status.className = 'status status-pinjam';
+      // Simpan ke array
+      riwayatPinjam.push({
+        id: id,
+        judul: judul,
+        tanggal: tglStr,
+        status: 'Dipinjam'
+      });
 
-      btn.textContent = 'Sedang Dipinjam';
+      // Update UI kartu
+      badge.textContent = 'Dipinjam';
+      badge.className = 'badge badge-pinjam';
+      btn.textContent = 'Dipinjam';
       btn.disabled = true;
+
+      updateTableRiwayat();
+      alert('Buku "' + judul + '" berhasil dipinjam.');
+      return;
     }
+
+    // Klik area kartu buku untuk lihat detail
+    const card = e.target.closest('.item-buku');
+    if (card) {
+      document.getElementById('mdJudul').textContent = card.getAttribute('data-judul');
+      document.getElementById('mdPenulis').textContent = 'Penulis: ' + card.getAttribute('data-penulis');
+      document.getElementById('mdDeskripsi').textContent = card.getAttribute('data-deskripsi');
+      document.getElementById('modalDetail').classList.remove('hidden');
+    }
+  });
+}
+
+// Function update tabel riwayat
+function updateTableRiwayat() {
+  const tb = document.getElementById('tbRiwayat');
+  const empty = document.getElementById('emptyRiwayat');
+  const totalPinjam = document.getElementById('totalPinjam');
+
+  tb.innerHTML = '';
+  totalPinjam.textContent = riwayatPinjam.length;
+
+  if (riwayatPinjam.length === 0) {
+    empty.classList.remove('hidden');
     return;
   }
 
-  // Jika area Card Buku diklik
-  const card = e.target.closest('.card-buku');
-  if (card) {
-    const judul = card.getAttribute('data-judul');
-    const penulis = card.getAttribute('data-penulis');
-    const deskripsi = card.getAttribute('data-deskripsi');
+  empty.classList.add('hidden');
 
-    detailJudul.textContent = judul;
-    detailPenulis.textContent = 'Penulis: ' + penulis;
-    detailDeskripsi.textContent = deskripsi;
+  riwayatPinjam.forEach(function (row, idx) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${idx + 1}</td>
+      <td><b>${row.judul}</b></td>
+      <td>${row.tanggal}</td>
+      <td><span class="badge ${row.status === 'Dipinjam' ? 'badge-pinjam' : 'badge-ada'}">${row.status}</span></td>
+      <td>
+        ${
+          row.status === 'Dipinjam'
+            ? `<button class="btn-danger" onclick="kembalikan('${row.id}')">Kembalikan</button>`
+            : '-'
+        }
+      </td>
+    `;
+    tb.appendChild(tr);
+  });
+}
 
-    detailModal.classList.remove('hidden');
+// Function kembalikan buku
+function kembalikan(id) {
+  const item = riwayatPinjam.find((r) => r.id === id && r.status === 'Dipinjam');
+  if (item) {
+    item.status = 'Dikembalikan';
+
+    // Reset status di kartu
+    const card = document.querySelector(`.item-buku[data-id="${id}"]`);
+    if (card) {
+      const badge = card.querySelector('.badge');
+      const btn = card.querySelector('.btn-pinjam');
+
+      badge.textContent = 'Tersedia';
+      badge.className = 'badge badge-ada';
+      btn.textContent = 'Pinjam';
+      btn.disabled = false;
+    }
+
+    updateTableRiwayat();
+    alert('Buku berhasil dikembalikan.');
   }
-});
+}
 
-// 5. Tutup Modal Detail
-btnCloseDetail.addEventListener('click', function () {
-  detailModal.classList.add('hidden');
-});
+// Modal Tutup
+function closeModal() {
+  document.getElementById('modalDetail').classList.add('hidden');
+}
 
-detailModal.addEventListener('click', function (e) {
-  if (e.target === detailModal) {
-    detailModal.classList.add('hidden');
+window.onclick = function (e) {
+  const modal = document.getElementById('modalDetail');
+  if (e.target === modal) {
+    closeModal();
   }
-});
+};
