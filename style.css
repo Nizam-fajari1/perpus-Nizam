@@ -114,12 +114,11 @@ body {
 .btn-out {
   background: #dc3545;
   color: #fff;
-  border: none;
-  padding: 5px 10px;
+  text-decoration: none;
+  padding: 4px 10px;
   border-radius: 3px;
   font-size: 12px;
   margin-left: 10px;
-  cursor: pointer;
 }
 
 /* CONTENT & TABS */
@@ -168,11 +167,19 @@ body {
 }
 
 .item-buku {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  background: #ffffff;
+  border: 2px solid #333333 !important; /* Stroke hitam/gelap tebal */
+  border-radius: 8px;
   overflow: hidden;
+  transition: all 0.2s ease;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.item-buku:hover {
+  border-color: #2563eb !important; /* Berubah biru pas di-hover */
+  transform: translateY(-3px);
 }
 
 .thumb {
@@ -293,7 +300,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 99;
 }
 
 .modal-content {
