@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Data daftar buku
 $buku_list = [
     [
         "id" => 1,
@@ -47,7 +46,6 @@ $buku_list = [
     ]
 ];
 
-// Proses Login Sederhana
 $error = "";
 if (isset($_POST['login'])) {
     $user = trim($_POST['username']);
@@ -62,7 +60,6 @@ if (isset($_POST['login'])) {
     }
 }
 
-// Proses Logout
 if (isset($_GET['logout'])) {
     session_destroy();
     header("Location: index.php");
@@ -82,7 +79,6 @@ $is_login = isset($_SESSION['username']);
 <body>
 
   <?php if (!$is_login): ?>
-  <!-- FORM LOGIN -->
   <div class="login-modal">
     <div class="login-box">
       <h3>Login Anggota</h3>
@@ -108,7 +104,6 @@ $is_login = isset($_SESSION['username']);
 
   <?php else: ?>
 
-  <!-- HEADER -->
   <div class="header">
     <div class="container flex-space">
       <div class="logo">Web Perpus</div>
@@ -119,10 +114,8 @@ $is_login = isset($_SESSION['username']);
     </div>
   </div>
 
-  <!-- MAIN CONTENT -->
   <div class="container content">
     
-    <!-- NAVIGATION TAB -->
     <div class="tabs">
       <button class="tab-item active" onclick="switchTab('katalog')">Katalog Buku</button>
       <button class="tab-item" onclick="switchTab('riwayat')">
@@ -167,15 +160,15 @@ $is_login = isset($_SESSION['username']);
         <table class="table">
           <thead>
             <tr>
-              <th width="50">No</th>
-              <th>Judul Buku</th>
+              <th width="40">No</th>
+              <th>Peminjam</th>
+              <th>Buku</th>
               <th>Tgl Pinjam</th>
               <th>Status</th>
-              <th width="100">Opsi</th>
+              <th width="80">Opsi</th>
             </tr>
           </thead>
           <tbody id="tbRiwayat">
-            <!-- Isi riwayat dari JS -->
           </tbody>
         </table>
         <p id="emptyRiwayat" class="empty-msg">Belum ada buku yang dipinjam.</p>
@@ -184,10 +177,43 @@ $is_login = isset($_SESSION['username']);
 
   </div>
 
-  <!-- MODAL DETAIL -->
+  <!-- MODAL FORM PINJAM (BIODATA) -->
+  <div id="modalPinjam" class="modal-bg hidden">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModalPinjam()">&times;</span>
+      <h3>Form Peminjaman Buku</h3>
+      <p class="text-sub">Isi data diri kamu sebelum meminjam buku ini.</p>
+      <hr style="margin-bottom: 12px;">
+
+      <form id="formPinjamBuku">
+        <input type="hidden" id="pBukuId">
+        
+        <div class="form-group">
+          <label>Judul Buku</label>
+          <input type="text" id="pBukuJudul" readonly style="background: #e9ecef; font-weight: bold;">
+        </div>
+        <div class="form-group">
+          <label>Nama Lengkap</label>
+          <input type="text" id="pNama" placeholder="Contoh: Muhammad Nizam" required>
+        </div>
+        <div class="form-group">
+          <label>Kelas / Jurusan</label>
+          <input type="text" id="pKelas" placeholder="Contoh: XII RPL 1" required>
+        </div>
+        <div class="form-group">
+          <label>No. HP / WA</label>
+          <input type="text" id="pNoHp" placeholder="Contoh: 081234567890" required>
+        </div>
+
+        <button type="submit" class="btn-primary" style="margin-top: 5px;">Konfirmasi Pinjam</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL DETAIL BUKU -->
   <div id="modalDetail" class="modal-bg hidden">
     <div class="modal-content">
-      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <span class="close-btn" onclick="closeModalDetail()">&times;</span>
       <h3 id="mdJudul">Judul Buku</h3>
       <p class="text-sub" id="mdPenulis">Penulis</p>
       <hr>
@@ -196,7 +222,6 @@ $is_login = isset($_SESSION['username']);
     </div>
   </div>
 
-  <!-- FOOTER -->
   <div class="footer">
     <div class="container">
       <p>&copy; 2026 Aplikasi Perpustakaan Sederhana</p>

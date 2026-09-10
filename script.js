@@ -1,7 +1,5 @@
-// Array penampung riwayat pinjam sementara
 let riwayatPinjam = [];
 
-// Fungsi ganti tab
 function switchTab(tabName) {
   const pageKatalog = document.getElementById('pageKatalog');
   const pageRiwayat = document.getElementById('pageRiwayat');
@@ -21,7 +19,7 @@ function switchTab(tabName) {
   }
 }
 
-// Fitur Pencarian Buku
+// Pencarian
 const inputCari = document.getElementById('cariBuku');
 if (inputCari) {
   inputCari.addEventListener('keyup', function () {
@@ -50,43 +48,25 @@ if (inputCari) {
   });
 }
 
-// Event handler klik di grid buku
+// Handler Klik Buku / Pinjam
 const listBuku = document.getElementById('listBuku');
 if (listBuku) {
   listBuku.addEventListener('click', function (e) {
-    // Tombol Pinjam diklik
+    // Jika tombol Pinjam diklik -> Buka Modal Form Biodata
     if (e.target.classList.contains('btn-pinjam')) {
       e.stopPropagation();
       const btn = e.target;
       const card = btn.closest('.item-buku');
       const id = card.getAttribute('data-id');
       const judul = card.getAttribute('data-judul');
-      const badge = card.querySelector('.badge');
 
-      // Ambil tanggal hari ini
-      const today = new Date();
-      const tglStr = today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear();
-
-      // Simpan ke array
-      riwayatPinjam.push({
-        id: id,
-        judul: judul,
-        tanggal: tglStr,
-        status: 'Dipinjam'
-      });
-
-      // Update UI kartu
-      badge.textContent = 'Dipinjam';
-      badge.className = 'badge badge-pinjam';
-      btn.textContent = 'Dipinjam';
-      btn.disabled = true;
-
-      updateTableRiwayat();
-      alert('Buku "' + judul + '" berhasil dipinjam.');
+      document.getElementById('pBukuId').value = id;
+      document.getElementById('pBukuJudul').value = judul;
+      document.getElementById('modalPinjam').classList.remove('hidden');
       return;
     }
 
-    // Klik area kartu buku untuk lihat detail
+    // Klik kartu untuk detail
     const card = e.target.closest('.item-buku');
     if (card) {
       document.getElementById('mdJudul').textContent = card.getAttribute('data-judul');
@@ -97,7 +77,53 @@ if (listBuku) {
   });
 }
 
-// Function update tabel riwayat
+// Submit Form Biodata Pinjam
+const formPinjamBuku = document.getElementById('formPinjamBuku');
+if (formPinjamBuku) {
+  formPinjamBuku.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const id = document.getElementById('pBukuId').value;
+    const judul = document.getElementById('pBukuJudul').value;
+    const nama = document.getElementById('pNama').value.trim();
+    const kelas = document.getElementById('pKelas').value.trim();
+    const nohp = document.getElementById('pNoHp').value.trim();
+
+    const today = new Date();
+    const tglStr = today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear();
+
+    // Masukkan ke array riwayat
+    riwayatPinjam.push({
+      id: id,
+      judul: judul,
+      nama: nama,
+      kelas: kelas,
+      nohp: nohp,
+      tanggal: tglStr,
+      status: 'Dipinjam'
+    });
+
+    // Ubah status kartu buku di UI
+    const card = document.querySelector(`.item-buku[data-id="${id}"]`);
+    if (card) {
+      const badge = card.querySelector('.badge');
+      const btn = card.querySelector('.btn-pinjam');
+
+      badge.textContent = 'Dipinjam';
+      badge.className = 'badge badge-pinjam';
+      btn.textContent = 'Dipinjam';
+      btn.disabled = true;
+    }
+
+    updateTableRiwayat();
+    closeModalPinjam();
+    
+    // Reset form
+    formPinjamBuku.reset();
+    alert('Buku "' + judul + '" berhasil dipinjam atas nama ' + nama + '.');
+  });
+}
+
 function updateTableRiwayat() {
   const tb = document.getElementById('tbRiwayat');
   const empty = document.getElementById('emptyRiwayat');
@@ -117,13 +143,14 @@ function updateTableRiwayat() {
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>${idx + 1}</td>
-      <td><b>${row.judul}</b></td>
+      <td><b>${row.nama}</b><br><small style="color:#666;">${row.kelas} (${row.nohp})</small></td>
+      <td>${row.judul}</td>
       <td>${row.tanggal}</td>
       <td><span class="badge ${row.status === 'Dipinjam' ? 'badge-pinjam' : 'badge-ada'}">${row.status}</span></td>
       <td>
         ${
           row.status === 'Dipinjam'
-            ? `<button class="btn-danger" onclick="kembalikan('${row.id}')">Kembalikan</button>`
+            ? `<button class="btn-danger" onclick="kembalikan('${row.id}')">Kembali</button>`
             : '-'
         }
       </td>
@@ -132,13 +159,11 @@ function updateTableRiwayat() {
   });
 }
 
-// Function kembalikan buku
 function kembalikan(id) {
   const item = riwayatPinjam.find((r) => r.id === id && r.status === 'Dipinjam');
   if (item) {
     item.status = 'Dikembalikan';
 
-    // Reset status di kartu
     const card = document.querySelector(`.item-buku[data-id="${id}"]`);
     if (card) {
       const badge = card.querySelector('.badge');
@@ -155,14 +180,18 @@ function kembalikan(id) {
   }
 }
 
-// Modal Tutup
-function closeModal() {
+function closeModalDetail() {
   document.getElementById('modalDetail').classList.add('hidden');
 }
 
+function closeModalPinjam() {
+  document.getElementById('modalPinjam').classList.add('hidden');
+}
+
 window.onclick = function (e) {
-  const modal = document.getElementById('modalDetail');
-  if (e.target === modal) {
-    closeModal();
-  }
+  const mDetail = document.getElementById('modalDetail');
+  const mPinjam = document.getElementById('modalPinjam');
+
+  if (e.target === mDetail) closeModalDetail();
+  if (e.target === mPinjam) closeModalPinjam();
 };
